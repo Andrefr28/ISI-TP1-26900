@@ -18,6 +18,11 @@ Thumbs.db
 .vscode/
 .idea/
 
+# OpenCode / agent local state
+.omo/
+
 # Temporary
 *.tmp
 *.log
+
+.playwright-mcp/
