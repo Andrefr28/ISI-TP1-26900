@@ -1,0 +1,45 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: food_rescue_mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: foodrescue
+      MONGO_INITDB_ROOT_PASSWORD: foodrescue123
+      MONGO_INITDB_DATABASE: food_rescue
+    volumes:
+      - mongodb_data:/data/db
+
+  postgres:
+    image: postgres:16
+    container_name: food_rescue_postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: food_rescue
+      POSTGRES_USER: foodrescue
+      POSTGRES_PASSWORD: foodrescue123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: food_rescue_grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - postgres
+
+volumes:
+  mongodb_data:
+  postgres_data:
+  grafana_data:
